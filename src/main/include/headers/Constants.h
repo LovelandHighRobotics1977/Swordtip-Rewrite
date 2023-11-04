@@ -206,6 +206,29 @@ namespace Mechanism {
 	}
 }
 
+namespace Autonomous {
+    namespace Parameter {
+		namespace Linear {
+			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 10;
+			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 10;
+		}
+		namespace Angular {
+			static const auto Velocity = units::radians_per_second_t{((Drivetrain::Movement::Maximum::Angular::Velocity.value() / 180) * M_PI)};
+			static const auto Acceleration = units::radians_per_second_squared_t{((Drivetrain::Movement::Maximum::Angular::Acceleration.value() / 180) * M_PI)};
+		}
+	}
+	namespace Controller {
+		namespace Proportional {
+			static constexpr double Forward = 0.1;
+			static constexpr double Strafe = 0.1;
+			static constexpr double Rotate = 0.1;
+		}
+		namespace Constraint {
+			static const frc::TrapezoidProfile<units::radians>::Constraints Rotate{Parameter::Angular::Velocity, Parameter::Angular::Acceleration};
+		}
+	}
+}
+
 namespace Teleop {
 	namespace Parameter {
 		namespace Linear {
@@ -221,29 +244,6 @@ namespace Teleop {
 		namespace Ports {
 			static constexpr int Driver = 0;
 			static constexpr int Operator = 1;
-		}
-	}
-}
-
-namespace Autonomous {
-	namespace Parameter {
-		namespace Linear {
-			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity;
-			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration;
-		}
-		namespace Angular {
-			static const auto Velocity = DegPerS_to_RadPerS(Drivetrain::Movement::Maximum::Angular::Velocity);
-			static const auto Acceleration = DegPerS2_to_RadPerS2(Drivetrain::Movement::Maximum::Angular::Acceleration);
-		}
-	}
-	namespace Controller {
-		namespace Proportional {
-			constexpr double Forward = 0.1;
-			constexpr double Strafe = 0.1;
-			constexpr double Rotate = 0.1;
-		}
-		namespace Constraint {
-			const frc::TrapezoidProfile<units::radians>::Constraints Rotate{Parameter::Angular::Velocity, Parameter::Angular::Acceleration};
 		}
 	}
 }

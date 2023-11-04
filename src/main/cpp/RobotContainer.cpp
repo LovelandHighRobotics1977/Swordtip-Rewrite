@@ -7,7 +7,12 @@
 #include "subsystems/DriveSubsystem.h"
 
 RobotContainer::RobotContainer() {
-	// Initialize all of your commands and subsystems here
+	// Add commands to the autonomous chooser
+	m_chooser.SetDefaultOption("Auto 1", m_AutoOne.get());
+	m_chooser.AddOption("Auto 2", m_AutoOne.get());
+
+	// Add the chooser to the dashboard
+	frc::Shuffleboard::GetTab("Autonomous").Add(m_chooser);
 
 	// Configure the button bindings
 	ConfigureButtonBindings();
@@ -36,64 +41,6 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-
-	// Trajectory config
-	frc::TrajectoryConfig config(Autonomous::Parameter::Linear::Velocity, Autonomous::Parameter::Linear::Acceleration);
-	config.SetKinematics(m_drive.DriveKinematics);
-
-	Trapezoid trapezoid{Autonomous::Controller::Proportional::Rotate, 0, 0, Autonomous::Controller::Constraint::Rotate};
-	frc::ProfiledPIDController<units::radian> RotationController{ trapezoid.proportional, trapezoid.integral, trapezoid.derivative, trapezoid.constraint};
-	RotationController.EnableContinuousInput(units::radian_t{-std::numbers::pi},units::radian_t{std::numbers::pi});
-
-	// no auto
-	return new frc2::SequentialCommandGroup(
-		frc2::InstantCommand(
-			[this] { m_drive.ResetOdometry(frc::Pose2d{0_m, 0_m, 0_deg}); }
-		),
-		frc2::SwerveControllerCommand<4>(
-			frc::TrajectoryGenerator::GenerateTrajectory(
-				frc::Pose2d{0_m, 0_m, 0_deg},
-				{
-					frc::Translation2d{1_m, 1_m}, 
-					frc::Translation2d{2_m, -1_m}
-				},				
-				frc::Pose2d{3_m, 0_m, 0_deg},
-				config
-			), 	
-			[this]() { return m_drive.GetPose(); }, 
-			m_drive.DriveKinematics,
-			frc2::PIDController{Autonomous::Controller::Proportional::Forward, 0, 0},
-			frc2::PIDController{Autonomous::Controller::Proportional::Strafe, 0, 0},
-			RotationController,
-			[this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
-			{&m_drive}
-		),
-		frc2::FunctionalCommand(
-			[this] { m_CubeArm.setAngle(false, false); },
-			[this] { m_CubeArm.setAngle(false, true); },
-			[this] (bool interrupted) { m_CubeArm.setAngle(false, false); },
-			[this] { return m_CubeArm.getLowerSwitch(); }
-		),
-		frc2::SwerveControllerCommand<4>(
-			frc::TrajectoryGenerator::GenerateTrajectory(
-				frc::Pose2d{3_m, 0_m, 0_deg},
-				{
-					frc::Translation2d{2_m, 1_m}, 
-					frc::Translation2d{1_m, -1_m}
-				},				
-				frc::Pose2d{0_m, 0_m, 0_deg},
-				config
-			), 	
-			[this]() { return m_drive.GetPose(); }, 
-			m_drive.DriveKinematics,
-			frc2::PIDController{Autonomous::Controller::Proportional::Forward, 0, 0},
-			frc2::PIDController{Autonomous::Controller::Proportional::Strafe, 0, 0},
-			RotationController,
-			[this](auto moduleStates) { m_drive.SetModuleStates(moduleStates); },
-			{&m_drive}
-		),
-		frc2::InstantCommand(
-			[this]() { m_drive.Drive({}); }
-		)
-	);
+	// Runs the chosen command in autonomous
+	return m_chooser.GetSelected();
 }

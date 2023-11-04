@@ -15,9 +15,6 @@ SwerveModule::SwerveModule(const int driveMotorID,     const int angleMotorID,  
 	Drivetrain::Swerve::Encoder::Angle::Configure(&m_angleEncoder, magnetOffset);
 	
 	m_turningPIDController.EnableContinuousInput(0_deg, 360_deg);
-
-	frc::SmartDashboard::PutData({&m_drivePIDController});
-	frc::SmartDashboard::PutData({&m_turningPIDController});
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
@@ -40,9 +37,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState)
 
 	// Calculate the turning motor output from the turning PID controller.
 	angleOutput = m_turningPIDController.Calculate(units::degree_t{m_angleEncoder.GetAbsolutePosition()}, state.angle.Degrees());
-
-	std::cout<<angleOutput<<std::endl;
-
+	
 	// Set the motor outputs.
 	m_driveMotor.Set(driveOutput);
 	m_angleMotor.Set(-angleOutput);

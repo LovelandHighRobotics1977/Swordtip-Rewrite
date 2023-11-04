@@ -1,5 +1,7 @@
 #include "headers/Headers.h"
 
+#pragma once
+
 class Angle {
 	public:
 		Angle();

@@ -2,9 +2,11 @@
 #include "subsystems/ArmComponents/Angle.h"
 #include "subsystems/ArmComponents/Intake.h"
 
-class CubeArm : public frc2::SubsystemBase {
+#pragma once
+
+class CubeArmSubsystem : public frc2::SubsystemBase {
 	public:
-		CubeArm();
+		CubeArmSubsystem();
 
 		void setTarget(int preset);
 

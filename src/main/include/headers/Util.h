@@ -1,8 +1,8 @@
-#include "Libraries.h"
-
 // Argument abstraction data types
 
 #pragma once
+
+#include "Libraries.h"
 
 /**
  * Data for driving the robot
@@ -39,12 +39,3 @@ struct Trapezoid{
 	double derivative;
 	const frc::TrapezoidProfile<units::radian>::Constraints constraint;
 };
-
-static units::radians_per_second_t DegPerS_to_RadPerS(units::degrees_per_second_t degrees){
-	return units::radians_per_second_t{( (degrees.value() / 180 ) * M_PI )};
-}
-
-static units::radians_per_second_squared_t DegPerS2_to_RadPerS2(units::degrees_per_second_squared_t degrees){
-	return units::radians_per_second_squared_t{( (degrees.value() / 180 ) * M_PI )};
-}
-

@@ -4,6 +4,7 @@
 
 #include "subsystems/DriveSubsystem.h"
 #include "headers/Headers.h"
+#include "commands/Autonomous.h"
 
 DriveSubsystem::DriveSubsystem()
    :m_frontLeft{Drivetrain::Swerve::Module::Front::Left::Drive,
@@ -62,8 +63,6 @@ void DriveSubsystem::Drive(DriveData data) {
 	m_frontRight.SetDesiredState(fr);
 	m_rearLeft.SetDesiredState(rl);
 	m_rearRight.SetDesiredState(rr);
-
-	std::cout<<fl.angle.Degrees().value()<<std::endl;
 }
 
 void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {

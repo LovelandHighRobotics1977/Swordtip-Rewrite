@@ -2,6 +2,8 @@
 
 #include "Libraries.h"
 
+#include "Constants.h"
+
 class Driver {
 	public:
 
@@ -72,13 +74,14 @@ class Driver {
 
 				emergency_stop = m_Joystick.GetRawButton(4);
 
-				throttle = ((1 - ((m_Joystick.GetRawAxis(3) + 1) / 2)));
+				throttle = ((1 - ((m_Joystick.GetThrottle() + 1) / 2)) / Teleop::Parameter::Linear::Velocity.value());
 
 				forward = (-m_forwardLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetY(), forward_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetX(), strafe_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetRawAxis(2), rotate_deadzone)) * sqrt(throttle)) * Drivetrain::Movement::Maximum::Angular::Velocity;
+				strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(-m_Joystick.GetX(), strafe_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
+				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetTwist(), rotate_deadzone)) * sqrt(throttle)) * Drivetrain::Movement::Maximum::Angular::Velocity;
+
+				std::cout<<forward.value()<<std::endl;
 			}
-		
 		}
 
 		private:
@@ -111,7 +114,7 @@ class Operator {
 
 			intakeEnable = (m_XboxController.GetLeftBumper() || m_XboxController.GetRightBumper());
 
-			if(m_XboxController.GetXButton() || m_XboxController.GetLeftBumper()){
+			if(m_XboxController.GetLeftBumper()){
 				speed = Mechanism::Intake::Target::Pickup;
 			}else if(m_XboxController.GetStartButton()){
 				speed = Mechanism::Intake::Target::Off;

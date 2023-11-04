@@ -1,8 +1,8 @@
 #include "subsystems/CubeArmSubsystem.h"
 
-CubeArm::CubeArm(){}
+CubeArmSubsystem::CubeArmSubsystem(){}
 
-void CubeArm::setTarget(int preset){
+void CubeArmSubsystem::setTarget(int preset){
     switch (preset){
 		case Mechanism::Intake::Target::Pickup:
 			motorSpeed = 0.2;
@@ -27,7 +27,7 @@ void CubeArm::setTarget(int preset){
 	}
 }
 
-void CubeArm::setIntake(bool enable){
+void CubeArmSubsystem::setIntake(bool enable){
     if(enable){
         m_intake.setIntake(motorSpeed);
     }else{
@@ -35,14 +35,14 @@ void CubeArm::setIntake(bool enable){
     }
 }
 
-void CubeArm::setAngle(bool up, bool down){
+void CubeArmSubsystem::setAngle(bool up, bool down){
     m_angle.adjustAngle(up, down);
 }
 
-bool CubeArm::getLowerSwitch(){
-	return m_angle.GetLowerSwitch();
+bool CubeArmSubsystem::getLowerSwitch(){
+	return (!m_angle.GetLowerSwitch());
 }
 
-bool CubeArm::getUpperSwitch(){
-	return m_angle.GetUpperSwitch();
+bool CubeArmSubsystem::getUpperSwitch(){
+	return (!m_angle.GetUpperSwitch());
 }

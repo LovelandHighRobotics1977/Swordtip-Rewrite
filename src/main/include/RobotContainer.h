@@ -7,6 +7,7 @@
 #include "headers/Headers.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/CubeArmSubsystem.h"
+#include "commands/Autonomous.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -30,7 +31,10 @@ class RobotContainer {
 
 	// The robot's subsystems
 	DriveSubsystem m_drive;
-	CubeArm m_CubeArm;
+	CubeArmSubsystem m_CubeArm;
+
+	// Auto routines
+	frc2::CommandPtr m_AutoOne = AutoRoutine::autoOne(&m_drive, &m_CubeArm);
 
 	// The chooser for the autonomous routines
 	frc::SendableChooser<frc2::Command*> m_chooser;
