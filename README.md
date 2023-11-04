@@ -3,12 +3,12 @@ Rewrite of the offseason swerve bot "Swordtip" using the command based framework
 
 Swordtip is a swerve bot using falcon 500 motors, with an arm that angles up and down, and a spinning wheel on the intake to pick up and fire cubes.  It can score low, mid, and high nodes.  It has a footprint of `26"`  x  `26"` without bumpers
 
-# Changes:
+# Most recent changes:
  - Auto has been moved to a separate file and is now selected with a sendable chooser
  - Multiple files for commands, each grouped into their respective namespaces.  
  - An auto that *should* be able to fetch a cube.  key word: *should*
 
-# TODO:
+# To do:
  - Mechanical:
      - Replace the front-right drive motor, because the bearing is failing.
      - Re-tread the swerve wheels, or potentially switch to the colsons
