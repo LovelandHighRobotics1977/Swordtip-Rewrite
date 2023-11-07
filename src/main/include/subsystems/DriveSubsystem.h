@@ -40,14 +40,14 @@ public:
 	/**
 	 * Returns the heading of the robot.
 	 *
-	 * @return the robot's heading in degrees, from 180 to 180
+	 * @return the robot's heading
 	 */
-	units::degree_t GetHeading() const;
+	frc::Rotation2d GetHeading();
 
 	/**
 	 * Zeroes the heading of the robot.
 	 */
-	void ZeroHeading();
+	frc2::CommandPtr ZeroHeading();
 
 	/**
 	 * Returns the turn rate of the robot.
@@ -62,6 +62,17 @@ public:
 	 * @return The pose.
 	 */
 	frc::Pose2d GetPose();
+
+	/**
+	 * Checks if two poses are equal within a given tolerance.
+	 *
+	 * @param pose1 The first pose to compare.
+	 * @param pose2 The second pose to compare.
+	 * @param tolerance The tolerance within which the poses are considered equal. ( meters )
+	 *
+	 * @return True if the poses are equal within the given tolerance, otherwise false.
+	 */
+	bool ComparePoses(const frc::Pose2d& pose1, const frc::Pose2d& pose2, units::meter_t tolerance);
 
 	/**
 	 * Resets the odometry to the specified pose.

@@ -21,8 +21,8 @@ namespace Drivetrain {
 
 			// circumscribed circle around length and width location
 			namespace Circle {
-				static const auto Diameter = std::hypot(Frame::Measurments::Length_Location.value(), Frame::Measurments::Width_Location.value()) * 2;
-				static const auto Circumference = units::meter_t{(Diameter * M_PI) / 39.375};
+				static const auto Radius = units::meter_t{std::hypot(Frame::Measurments::Length_Location.value(), Frame::Measurments::Width_Location.value()) / 39.375};
+				static const auto Circumference = (2*(2*Radius) * M_PI);
 			}
 		}
 	}
@@ -33,14 +33,14 @@ namespace Drivetrain {
 					static constexpr int Drive = 9;
 					static constexpr int Angle = 10;
 					static constexpr int Encoder = 11;
-					static constexpr double MagnetOffset = 149.6777;
+					static constexpr double MagnetOffset = 360 - 210.762;
 					static constexpr frc::Translation2d Location = {+Frame::Measurments::Length_Location, +Frame::Measurments::Width_Location};
 				}
 				namespace Right {
 					static constexpr int Drive = 0;
 					static constexpr int Angle = 1;
 					static constexpr int Encoder = 2;
-					static constexpr double MagnetOffset = -112.588;
+					static constexpr double MagnetOffset = 360 - 112.859;
 					static constexpr frc::Translation2d Location = {+Frame::Measurments::Length_Location, -Frame::Measurments::Width_Location};
 				}
 			}
@@ -49,20 +49,20 @@ namespace Drivetrain {
 					static constexpr int Drive = 6;
 					static constexpr int Angle = 7;
 					static constexpr int Encoder = 8;
-					static constexpr double MagnetOffset = 111.0059;
+					static constexpr double MagnetOffset = 360 - 249.609;
 					static constexpr frc::Translation2d Location = {-Frame::Measurments::Length_Location, +Frame::Measurments::Width_Location};
 					}
 				namespace Right {
 					static constexpr int Drive = 3;
 					static constexpr int Angle = 4;
 					static constexpr int Encoder = 5;
-					static constexpr double MagnetOffset = 101.777;
+					static constexpr double MagnetOffset = 360 - 258.398;
 					static constexpr frc::Translation2d Location = {-Frame::Measurments::Length_Location, -Frame::Measurments::Width_Location};
 				}
 			}
 		}
 		namespace Wheel {
-			static constexpr units::inch_t Radius = 2_in;
+			static constexpr units::meter_t Radius = 2_in;
 		}
 		namespace PID {
 			namespace Motor {
@@ -97,62 +97,13 @@ namespace Drivetrain {
 				static constexpr double max_rpm = 6380;
 				static constexpr double gear_ratio = 6.75;
 				static constexpr double encoder_cpr = 2048;
-				static const auto distance_per_pulse = units::meter_t{(((((2 * Wheel::Radius) * M_PI) / (gear_ratio * encoder_cpr)) / 60 ) / 39.375 ).value()};
-				static void Configure(ctre::phoenix::motorcontrol::can::WPI_TalonFX *motor){
-					motor->ConfigFactoryDefault();
-
-					motor->SetNeutralMode(NeutralMode::Brake);
-
-					motor->ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, 0, 0);
-
-					motor->Config_kP(0, PID::Motor::Drive::P);
-					motor->Config_kI(0, PID::Motor::Drive::I);
-					motor->Config_kD(0, PID::Motor::Drive::D);
-					motor->Config_kF(0, PID::Motor::Drive::F);
-
-					motor->ConfigNominalOutputForward(0);
-					motor->ConfigNominalOutputReverse(0);
-					motor->ConfigPeakOutputForward(1);
-					motor->ConfigPeakOutputReverse(-1);
-				}
+				static const auto distance_per_pulse = (((2 * Wheel::Radius) * M_PI) / (gear_ratio * encoder_cpr));
 			}
 			namespace Angle {
 				static constexpr double max_rpm = 6380;
 				static constexpr double gear_ratio = 150/7;
 				static constexpr double encoder_cpr = 4096;
-				static constexpr auto distance_per_pulse = ((2 * M_PI) / (encoder_cpr));
-				static void Configure(ctre::phoenix::motorcontrol::can::WPI_TalonFX *motor, int angleEncoderID){
-					motor->ConfigFactoryDefault();
-
-					motor->SetSensorPhase(true);
-					motor->SetNeutralMode(NeutralMode::Brake);
-
-					motor->ConfigFeedbackNotContinuous(true);
-					motor->ConfigSelectedFeedbackSensor(FeedbackDevice::RemoteSensor0, 0, 0);
-					motor->ConfigRemoteFeedbackFilter(angleEncoderID, RemoteSensorSource(13), 0, 0);
-					motor->ConfigIntegratedSensorAbsoluteRange(AbsoluteSensorRange::Unsigned_0_to_360);
-
-					motor->Config_kP(0, PID::Motor::Angle::P);
-					motor->Config_kI(0, PID::Motor::Angle::I);
-					motor->Config_kD(0, PID::Motor::Angle::D);
-					motor->Config_kF(0, PID::Motor::Angle::F);
-					motor->Config_IntegralZone(0, 20);
-
-					motor->ConfigNominalOutputForward(0);
-					motor->ConfigNominalOutputReverse(0);
-					motor->ConfigPeakOutputForward(1);
-					motor->ConfigPeakOutputReverse(-1);
-				}
-			}
-		}
-		namespace Encoder {
-			namespace Angle {
-				static void Configure(ctre::phoenix::sensors::CANCoder *encoder, double magnetOffset){
-					encoder->ConfigFactoryDefault();
-					encoder->ConfigMagnetOffset(magnetOffset);
-					encoder->SetPositionToAbsolute();
-					encoder->ConfigAbsoluteSensorRange(AbsoluteSensorRange::Unsigned_0_to_360);
-				}
+				static constexpr auto distance_per_pulse = units::radian_t{((2 * M_PI) / (encoder_cpr))};
 			}
 		}
 	}
@@ -160,12 +111,19 @@ namespace Drivetrain {
 		namespace Maximum {
 			namespace Linear {
 				// ~ 16 feet per second | ~ 5.02 meters per second
-				static const auto Velocity = units::meters_per_second_t{((((2 * Swerve::Wheel::Radius * M_PI) * (Swerve::Motor::Drive::max_rpm / Swerve::Motor::Drive::gear_ratio)) / 60 ).value()) / 39.375};
+				static const auto Velocity = units::meters_per_second_t{((((2 * Swerve::Wheel::Radius.value() * M_PI) * (Swerve::Motor::Drive::max_rpm / Swerve::Motor::Drive::gear_ratio)))) / 60};
 				static const auto Acceleration = units::meters_per_second_squared_t{Velocity.value()};
 			}
 			namespace Angular {
 				// ~ 773 degrees per second
-				static const auto Velocity = units::degrees_per_second_t{( 360 * (Linear::Velocity / Frame::Measurments::Circle::Circumference)).value()};
+				static const auto Velocity = units::degrees_per_second_t{(
+					360 * 
+					(
+						Linear::Velocity 
+						/ 
+						Frame::Measurments::Circle::Circumference
+					)
+					).value()};
 				static const auto Acceleration = units::degrees_per_second_squared_t{Velocity.value()};
 			}
 		}
@@ -206,15 +164,20 @@ namespace Mechanism {
 	}
 }
 
+namespace Conversions {
+	static constexpr auto DegToRad = M_PI / 180;
+	static constexpr auto DegToSensorTicks = 4096 / 360;
+}
+
 namespace Autonomous {
     namespace Parameter {
 		namespace Linear {
-			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 10;
-			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 10;
+			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 5;
+			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 5;
 		}
 		namespace Angular {
-			static const auto Velocity = units::radians_per_second_t{((Drivetrain::Movement::Maximum::Angular::Velocity.value() / 180) * M_PI)};
-			static const auto Acceleration = units::radians_per_second_squared_t{((Drivetrain::Movement::Maximum::Angular::Acceleration.value() / 180) * M_PI)};
+			static const auto Velocity = Drivetrain::Movement::Maximum::Angular::Velocity;
+			static const auto Acceleration = Drivetrain::Movement::Maximum::Angular::Acceleration;
 		}
 	}
 	namespace Controller {
@@ -224,7 +187,10 @@ namespace Autonomous {
 			static constexpr double Rotate = 0.1;
 		}
 		namespace Constraint {
-			static const frc::TrapezoidProfile<units::radians>::Constraints Rotate{Parameter::Angular::Velocity, Parameter::Angular::Acceleration};
+			static const frc::TrapezoidProfile<units::radians>::Constraints Rotate{
+				units::radians_per_second_t{Parameter::Angular::Velocity.value() * Conversions::DegToRad},
+				units::radians_per_second_squared_t{Parameter::Angular::Acceleration.value() * Conversions::DegToRad}
+			};
 		}
 	}
 }

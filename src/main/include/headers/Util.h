@@ -17,7 +17,7 @@ struct DriveData{
 	units::meters_per_second_t strafe = 0_mps;
 	units::angular_velocity::degrees_per_second_t rotate = 0_deg_per_s;
 	bool fieldRelative = true;
-	frc::Translation2d centerOfRotation = frc::Translation2d{};
+	frc::Translation2d centerOfRotation = frc::Translation2d{0_m, 0_m};
 };
 
 /**
@@ -37,5 +37,5 @@ struct Trapezoid{
 	double proportional;
 	double integral;
 	double derivative;
-	const frc::TrapezoidProfile<units::radian>::Constraints constraint;
+	const frc::TrapezoidProfile<units::radians>::Constraints constraint;
 };

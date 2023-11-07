@@ -4,7 +4,7 @@
 
 #include "Constants.h"
 
-class Driver {
+class Driver : public frc2::SubsystemBase {
 	public:
 
 		Driver(const int port):m_Joystick{port}{};
@@ -20,9 +20,9 @@ class Driver {
 
 		double throttle;
 
-		units::meters_per_second_t forward;
-		units::meters_per_second_t strafe;
-		units::degrees_per_second_t rotate;
+		double forward;
+		double strafe;
+		double rotate;
 		
 		/**
 		 * Update the controller variables 
@@ -30,6 +30,9 @@ class Driver {
 		 * @note Automaically chooses the control scheme based on the joystick name
 		*/
 		void update(){
+
+			// Control Scheme Definitions
+
 			if(m_Joystick.GetName() == std::string{"HOTAS"}){
 				field_relative = !m_Joystick.GetRawButton(6);
 
@@ -40,11 +43,11 @@ class Driver {
 
 				emergency_stop = m_Joystick.GetRawButton(5);
 
-				throttle = ((1 - ((m_Joystick.GetZ() + 1) / 2)));
+				throttle = (-m_Joystick.GetZ() + 1) / 2;
 
-				forward = (-m_forwardLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetY(), forward_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetX(), strafe_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetRawAxis(5), rotate_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Angular::Velocity;
+				forward = m_Joystick.GetY();
+				strafe = -m_Joystick.GetX();
+				rotate = m_Joystick.GetRawAxis(5);
 			}
 
 			if(m_Joystick.GetName() == std::string{"Saitek X45"}){
@@ -57,11 +60,12 @@ class Driver {
 
 				emergency_stop = m_Joystick.GetRawButton(8);
 
-				throttle = ((1 - ((m_Joystick.GetRawAxis(4) + 1) / 2)));
+				throttle = (-m_Joystick.GetRawAxis(4) + 1) / 2;
+				
+				forward = m_Joystick.GetY();
+				strafe = -m_Joystick.GetX();
+				rotate = m_Joystick.GetRawAxis(3);
 
-				forward = (-m_forwardLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetY(), forward_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetX(), strafe_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetRawAxis(3), rotate_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Angular::Velocity;
 			}
 
 			if(m_Joystick.GetName() == std::string{"Extreme 3D pro"}){
@@ -74,13 +78,24 @@ class Driver {
 
 				emergency_stop = m_Joystick.GetRawButton(4);
 
-				throttle = ((1 - ((m_Joystick.GetThrottle() + 1) / 2)) / Teleop::Parameter::Linear::Velocity.value());
+				throttle = (-m_Joystick.GetThrottle() + 1) / 2;
 
-				forward = (-m_forwardLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetY(), forward_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(-m_Joystick.GetX(), strafe_deadzone)) * throttle) * Drivetrain::Movement::Maximum::Linear::Velocity;
-				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(m_Joystick.GetTwist(), rotate_deadzone)) * sqrt(throttle)) * Drivetrain::Movement::Maximum::Angular::Velocity;
+				forward = m_Joystick.GetY();
+				strafe = -m_Joystick.GetX();
+				rotate = m_Joystick.GetTwist();
+			}
 
-				std::cout<<forward.value()<<std::endl;
+			// Controller values and optimizations
+
+			forward = (-m_forwardLimiter.Calculate(frc::ApplyDeadband(forward, forward_deadzone)) * throttle);
+			strafe = (-m_strafeLimiter.Calculate(frc::ApplyDeadband(strafe, strafe_deadzone)) * throttle);
+			
+			if(trigger_one){
+				rotate = 0.75 * (-m_rotateLimiter.Calculate(frc::ApplyDeadband(rotate, rotate_deadzone)) * sqrt(throttle));
+			}else if(trigger_one && trigger_two){
+				rotate = (-m_rotateLimiter.Calculate(frc::ApplyDeadband(rotate, rotate_deadzone)) * sqrt(throttle));
+			}else{
+				rotate = 0.4 * (-m_rotateLimiter.Calculate(frc::ApplyDeadband(rotate, rotate_deadzone)) * sqrt(throttle));
 			}
 		}
 
@@ -96,7 +111,7 @@ class Driver {
 			double rotate_deadzone = 0.3;
 	};
 
-class Operator {
+class Operator : public frc2::SubsystemBase {
 	public:
 
 		Operator(const int port):m_XboxController{port}{};

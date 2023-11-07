@@ -15,6 +15,8 @@
 #include <functional>
 #include <numbers>
 #include <utility>
+#include <fstream>
+#include <string>
 
 // frc kinematics
 #include <frc/kinematics/SwerveModulePosition.h>

@@ -28,7 +28,7 @@ DriveSubsystem::DriveSubsystem()
 				Drivetrain::Swerve::Module::Rear::Right::MagnetOffset,},
 
 	m_odometry{DriveKinematics,
-				gyro->GetRotation2d(),
+				DriveSubsystem::GetHeading(),
 				{m_frontLeft.GetPosition(), m_frontRight.GetPosition(),
 				m_rearLeft.GetPosition(), m_rearRight.GetPosition()},
 				frc::Pose2d{}} {}
@@ -38,7 +38,7 @@ void DriveSubsystem::Periodic() {
 
 	OdometryData data;
 
-	data.angle = gyro->GetRotation2d();
+	data.angle = DriveSubsystem::GetHeading();
 
 	data.positions[0] = m_frontLeft.GetPosition();
 	data.positions[1] = m_frontRight.GetPosition();
@@ -46,11 +46,12 @@ void DriveSubsystem::Periodic() {
 	data.positions[3] = m_rearRight.GetPosition();
 
 	m_odometry.Update(data.angle, data.positions);
+
+	//std::cout<<m_odometry.GetPose().X().value()<<" "<<m_odometry.GetPose().X().name()<<"   "<<m_odometry.GetPose().Y().value()<<" "<<m_odometry.GetPose().Y().name()<<std::endl;
 }
 
 void DriveSubsystem::Drive(DriveData data) {
-
-	fieldRelativeSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(frc::ChassisSpeeds{data.forward, -data.strafe, data.rotate}, gyro->GetRotation2d());
+	fieldRelativeSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(frc::ChassisSpeeds{data.forward, -data.strafe, data.rotate}, DriveSubsystem::GetHeading());
 	robotRelativeSpeeds = frc::ChassisSpeeds{data.forward, -data.strafe, data.rotate};
 
 	auto states = DriveKinematics.ToSwerveModuleStates(data.fieldRelative ? fieldRelativeSpeeds : robotRelativeSpeeds, data.centerOfRotation);
@@ -66,6 +67,7 @@ void DriveSubsystem::Drive(DriveData data) {
 }
 
 void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {
+
 	DriveKinematics.DesaturateWheelSpeeds(&desiredStates, Autonomous::Parameter::Linear::Velocity);
 
 	m_frontLeft.SetDesiredState(desiredStates[0]);
@@ -74,12 +76,12 @@ void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desir
 	m_rearRight.SetDesiredState(desiredStates[3]);
 }
 
-units::degree_t DriveSubsystem::GetHeading() const {
-	return gyro->GetRotation2d().Degrees();
+frc::Rotation2d DriveSubsystem::GetHeading(){
+	return -gyro->GetRotation2d();
 }
 
-void DriveSubsystem::ZeroHeading() {
-	gyro->Reset();
+frc2::CommandPtr DriveSubsystem::ZeroHeading() {
+	return frc2::InstantCommand( [this] {gyro->Reset();} ).ToPtr();
 }
 
 double DriveSubsystem::GetTurnRate() {
@@ -88,6 +90,11 @@ double DriveSubsystem::GetTurnRate() {
 
 frc::Pose2d DriveSubsystem::GetPose() {
 	return m_odometry.GetPose();
+}
+
+bool DriveSubsystem::ComparePoses(const frc::Pose2d& pose1, const frc::Pose2d& pose2, units::meter_t tolerance) {
+    return (std::abs(pose1.X().value() - pose2.X().value()) <= tolerance.value()) &&
+           (std::abs(pose1.Y().value() - pose2.Y().value()) <= tolerance.value());
 }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {

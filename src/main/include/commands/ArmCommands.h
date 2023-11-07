@@ -11,5 +11,5 @@ namespace ArmCommand {
     frc2::InstantCommand EnableIntake(CubeArmSubsystem *arm);
     frc2::InstantCommand DisableIntake(CubeArmSubsystem *arm);
     frc2::SequentialCommandGroup BeginCubePickup(CubeArmSubsystem *arm);
-    frc2::InstantCommand EndCubePickup(CubeArmSubsystem *arm);
+    frc2::SequentialCommandGroup EndCubePickup(CubeArmSubsystem *arm);
 }
