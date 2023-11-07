@@ -10,12 +10,13 @@ Swordtip is a swerve bot using falcon 500 motors, with an arm that angles up and
 
 # To do:
  - Mechanical:
-     - Replace the front-right drive motor, because the bearing is failing.
+     - ~~Replace the front-right drive motor, because the bearing is failing.~~ DONE
      - Re-tread the swerve wheels, or potentially switch to the colsons
      - Re-work the intake so that the bottom has rollers, and so that the bolt is not necessary to stop the arm.  
  - Programming
-     - Get the arm working fully as its own subsystem, its a bit goofy right now ( allow it to have a default command )
-     - Tune speeds on the field to more accurate values for better autos
+     - ~~Get the arm working fully as its own subsystem, its a bit goofy right now ( allow it to have a default command )~~ DONE
+     - ~~Tune linear speeds on the field~~ DONE
+     - Tune angular speeds on the field
      - Add more auto routines to the list, teach Bradley and others how to use the new system
      - Auto balancing `( most likely not in 2024 season, so why bother? )`
  - Misc
