@@ -46,8 +46,6 @@ void DriveSubsystem::Periodic() {
 	data.positions[3] = m_rearRight.GetPosition();
 
 	m_odometry.Update(data.angle, data.positions);
-
-	//std::cout<<m_odometry.GetPose().X().value()<<" "<<m_odometry.GetPose().X().name()<<"   "<<m_odometry.GetPose().Y().value()<<" "<<m_odometry.GetPose().Y().name()<<std::endl;
 }
 
 void DriveSubsystem::Drive(DriveData data) {
@@ -84,17 +82,19 @@ frc2::CommandPtr DriveSubsystem::ZeroHeading() {
 	return frc2::InstantCommand( [this] {gyro->Reset();} ).ToPtr();
 }
 
+frc2::SequentialCommandGroup DriveSubsystem::ZeroOdometry(frc::Pose2d pose) {
+	return frc2::SequentialCommandGroup(
+		frc2::InstantCommand( [this, pose] { DriveSubsystem::ResetOdometry(pose); } ),
+		frc2::InstantCommand( [this] {gyro->Reset();} )
+	);
+}
+
 double DriveSubsystem::GetTurnRate() {
 	return -gyro->GetVelocityZ();
 }
 
 frc::Pose2d DriveSubsystem::GetPose() {
 	return m_odometry.GetPose();
-}
-
-bool DriveSubsystem::ComparePoses(const frc::Pose2d& pose1, const frc::Pose2d& pose2, units::meter_t tolerance) {
-    return (std::abs(pose1.X().value() - pose2.X().value()) <= tolerance.value()) &&
-           (std::abs(pose1.Y().value() - pose2.Y().value()) <= tolerance.value());
 }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {

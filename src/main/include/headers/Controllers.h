@@ -119,21 +119,19 @@ class Operator : public frc2::SubsystemBase {
 		bool angle_up;
 		bool angle_down;
 
-		bool intakeEnable;
+		bool pickupEnable;
+		bool shootEnable;
 
-		int speed;
+		int speed = Mechanism::Intake::Target::High;
 
 		void update(){
 			angle_up = m_XboxController.GetLeftTriggerAxis() > 0;
 			angle_down = m_XboxController.GetRightTriggerAxis() > 0;
 
-			intakeEnable = (m_XboxController.GetLeftBumper() || m_XboxController.GetRightBumper());
+			pickupEnable = (m_XboxController.GetLeftBumper());
+			shootEnable = (m_XboxController.GetRightBumper());
 
-			if(m_XboxController.GetLeftBumper()){
-				speed = Mechanism::Intake::Target::Pickup;
-			}else if(m_XboxController.GetStartButton()){
-				speed = Mechanism::Intake::Target::Off;
-			}else if(m_XboxController.GetXButton()){
+			if(m_XboxController.GetXButton()){
 				speed = Mechanism::Intake::Target::Low;
 			}else if(m_XboxController.GetYButton()){
 				speed = Mechanism::Intake::Target::Mid;

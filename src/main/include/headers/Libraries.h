@@ -92,6 +92,7 @@
 #include <frc2/command/button/Trigger.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/FunctionalCommand.h>
+#include <frc2/command/StartEndCommand.h>
 
 // vision
 #include <cameraserver/CameraServer.h>

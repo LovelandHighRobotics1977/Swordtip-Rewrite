@@ -9,7 +9,6 @@
 RobotContainer::RobotContainer() {
 	// Add commands to the autonomous chooser
 	m_chooser.SetDefaultOption("Auto 1", m_AutoOne.get());
-	m_chooser.AddOption("Auto 2", m_AutoOne.get());
 
 	// Add the chooser to the dashboard
 	frc::Shuffleboard::GetTab("Autonomous").Add(m_chooser);
@@ -36,15 +35,18 @@ void RobotContainer::ConfigureButtonBindings() {
 
 	frc2::Trigger resetGyro([this] { return m_driver.gyro_reset; });
 	resetGyro.OnTrue(m_drive.ZeroHeading());
-	resetGyro.OnTrue(frc2::InstantCommand([this] {m_drive.ResetOdometry({0_m,0_m,0_deg}); } ).ToPtr());
+	
+	frc2::Trigger shootEnable([this] { return (m_operator.shootEnable); });
+	shootEnable.WhileTrue(m_CubeArm.ShootCube().ToPtr());
 
-	frc2::Trigger intakeEnable([this] { return m_operator.intakeEnable; });
-	intakeEnable.OnTrue(frc2::RunCommand( [this] { m_CubeArm.setIntake(true); } ).ToPtr());
-	intakeEnable.OnFalse(frc2::RunCommand( [this] { m_CubeArm.setIntake(false); } ).ToPtr());
+	frc2::Trigger pickupEnable([this] { return (m_operator.pickupEnable); });
+	pickupEnable.WhileTrue(m_CubeArm.PickupCube().ToPtr());
 
-	frc2::Trigger armAngle([this] { return (m_operator.angle_up || m_operator.angle_down); });
-	armAngle.OnTrue(frc2::RunCommand( [this] { m_CubeArm.setAngle(m_operator.angle_up, m_operator.angle_down); } ).ToPtr());
+	frc2::Trigger raiseArm([this] { return m_operator.angle_up; });
+	raiseArm.OnTrue(m_CubeArm.RaiseArm().ToPtr());
 
+	frc2::Trigger lowerArm([this] { return m_operator.angle_down; });
+	lowerArm.OnTrue(m_CubeArm.LowerArm().ToPtr());
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

@@ -2,7 +2,7 @@
 
 #pragma once
 
-class Intake {
+class Intake : public frc2::SubsystemBase {
 	public:
 		Intake();
 

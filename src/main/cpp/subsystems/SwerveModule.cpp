@@ -78,5 +78,5 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState)
 	
 	// Set the motor outputs.
 	m_driveMotor.Set(driveOutput);
-	m_angleMotor.Set(-angleOutput);
+	m_angleMotor.Set(TalonFXControlMode::Position, -state.angle.Degrees().value() * (4096/360));
 }

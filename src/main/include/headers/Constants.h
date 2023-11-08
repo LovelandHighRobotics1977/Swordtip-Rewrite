@@ -49,7 +49,7 @@ namespace Drivetrain {
 					static constexpr int Drive = 6;
 					static constexpr int Angle = 7;
 					static constexpr int Encoder = 8;
-					static constexpr double MagnetOffset = 360 - 249.609;
+					static constexpr double MagnetOffset = 360 - 250.609;
 					static constexpr frc::Translation2d Location = {-Frame::Measurments::Length_Location, +Frame::Measurments::Width_Location};
 					}
 				namespace Right {
@@ -172,8 +172,8 @@ namespace Conversions {
 namespace Autonomous {
     namespace Parameter {
 		namespace Linear {
-			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 5;
-			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 5;
+			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 10;
+			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 10;
 		}
 		namespace Angular {
 			static const auto Velocity = Drivetrain::Movement::Maximum::Angular::Velocity;

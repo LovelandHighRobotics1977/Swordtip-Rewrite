@@ -26,27 +26,6 @@ frc2::SwerveControllerCommand<4> SwerveCommand::FollowPath(DriveSubsystem *drive
 	);
 }
 
-frc2::FunctionalCommand SwerveCommand::DriveToPoint(DriveSubsystem *drive, frc::Pose2d desiredPoint) {
-	
-	auto difference_x = (desiredPoint.X() - drive->GetPose().X()).value();
-	auto difference_y = (desiredPoint.Y() - drive->GetPose().Y()).value();
-	
-	auto magnitude = std::sqrt(difference_x * difference_x + difference_y * difference_y);
-
-	auto forward = (magnitude != 0) ? std::max(-1.0, std::min(1.0, difference_x / magnitude)) : 0;
-	auto strafe = (magnitude != 0) ? std::max(-1.0, std::min(1.0, difference_y / magnitude)) : 0;
-
-	return frc2::FunctionalCommand(
-		[drive] { drive->Drive({}); },
-		[drive, forward, strafe] { drive->Drive({
-			forward * Autonomous::Parameter::Linear::Velocity,
-			strafe * Autonomous::Parameter::Linear::Velocity
-		}); },
-		[drive] (bool interrupted) { drive->Drive({}); },
-		[drive, desiredPoint] { return drive->ComparePoses(desiredPoint, drive->GetPose(), 0.3_m); }
-	);
-}
-
 frc2::InstantCommand SwerveCommand::ResetOdometry(DriveSubsystem *drive, frc::Pose2d pose) {
 	return frc2::InstantCommand([drive, pose] { drive->ResetOdometry(pose); });
 }

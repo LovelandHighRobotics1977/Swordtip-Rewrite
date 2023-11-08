@@ -2,7 +2,7 @@
 
 #pragma once
 
-class Angle {
+class Angle : public frc2::SubsystemBase {
 	public:
 		Angle();
 
