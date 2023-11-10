@@ -33,6 +33,7 @@ Swordtip is a swerve bot using falcon 500 motors, with an arm that angles up and
      - Tune angular speeds on the field
      - Add more auto routines to the list, teach Bradley and others how to use the new system
      - Auto balancing `( most likely not in 2024 season, so why bother? )`
+     - Add "correct" starting positions based on april tags using the limelight
  - Misc
      - SysId the robot for potential future ramesete controller usage?
      - Teach all programmers who have previously used timed how command works (bradley, dean, salem)
