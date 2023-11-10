@@ -75,24 +75,33 @@
 
 // dashboard
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/Field2d.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/DriverStation.h>
 
-// frc command based
+// frc command types
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/Command.h>
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/ParallelCommandGroup.h>
-#include <frc2/command/RunCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
-#include <frc2/command/SwerveControllerCommand.h>
-#include <frc2/command/button/JoystickButton.h>
-#include <frc2/command/button/Trigger.h>
+#include <frc2/command/RunCommand.h>
+#include <frc2/command/InstantCommand.h>
+#include <frc2/command/PIDCommand.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/StartEndCommand.h>
+#include <frc2/command/SwerveControllerCommand.h>
+#include <frc2/command/WaitUntilCommand.h>
+
+// frc command triggers
+#include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Trigger.h>
 
 // vision
 #include <cameraserver/CameraServer.h>
+
+// frc power
+#include <frc/PowerDistribution.h>
+#include <frc/RobotController.h>

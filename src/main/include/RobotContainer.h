@@ -34,10 +34,16 @@ class RobotContainer {
 	CubeArmSubsystem m_CubeArm;
 
 	// Auto routines
-	frc2::CommandPtr m_AutoOne = AutoRoutine::autoOne(&m_drive, &m_CubeArm);
+	frc2::CommandPtr a_fireCubeOnly = AutoRoutine::fireCubeOnly(&m_drive, &m_CubeArm);
+	frc2::CommandPtr a_red_midPickupCube = AutoRoutine::Red::MidPickupCube(&m_drive, &m_CubeArm);
+	frc2::CommandPtr a_red_driveForward = AutoRoutine::Red::DriveForward(&m_drive, &m_CubeArm);
 
 	// The chooser for the autonomous routines
 	frc::SendableChooser<frc2::Command*> m_chooser;
+
+	frc::Field2d m_field;
+
+	frc::PowerDistribution m_PDH{1, frc::PowerDistribution::ModuleType::kRev};
 
 	void ConfigureButtonBindings();
 };

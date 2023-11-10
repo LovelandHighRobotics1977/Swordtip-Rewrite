@@ -19,6 +19,8 @@ class CubeArmSubsystem : public frc2::SubsystemBase {
 		frc2::FunctionalCommand RaiseArm();
 		frc2::FunctionalCommand LowerArm();
 
+		double getTarget();
+
 	private:
 
 		Angle m_angle;

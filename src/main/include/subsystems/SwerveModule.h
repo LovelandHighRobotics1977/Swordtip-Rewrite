@@ -14,7 +14,7 @@ class SwerveModule {
 
 	frc::SwerveModulePosition GetPosition();
 
-	void SetDesiredState(const frc::SwerveModuleState& state);
+	void SetDesiredState(const frc::SwerveModuleState& state, bool usePID = true);
 
  private:
 	WPI_TalonFX m_driveMotor;

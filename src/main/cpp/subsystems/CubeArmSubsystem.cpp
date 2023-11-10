@@ -69,3 +69,17 @@ frc2::FunctionalCommand CubeArmSubsystem::LowerArm(){
 		{&m_angle}
 	);
 }
+
+double CubeArmSubsystem::getTarget(){
+	if(motorSpeed == -0.2){
+		return 1;
+	}else if(motorSpeed == -0.4){
+		return 2;
+	}else if(motorSpeed == -0.9){
+		return 3;
+	}else if(motorSpeed == -1){
+		return 4;
+	}else{
+		return 0;
+	}
+};
