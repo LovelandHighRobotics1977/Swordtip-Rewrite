@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COMMANDS_AUTONOMOUS_H
+#define _COMMANDS_AUTONOMOUS_H
 
 #include "headers/Headers.h"
 
@@ -19,3 +20,5 @@ namespace AutoRoutine {
 
     }
 }
+
+#endif  // _COMMANDS_AUTONOMOUS_H

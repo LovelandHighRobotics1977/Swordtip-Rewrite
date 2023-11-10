@@ -3,7 +3,10 @@
 Angle::Angle():
 	m_angleMotor{Mechanism::Angle::Motor::ID},
 	m_lowerSwitch{Mechanism::Angle::Limit::Lower},
-	m_upperSwitch{Mechanism::Angle::Limit::Upper}{}
+	m_upperSwitch{Mechanism::Angle::Limit::Upper}{
+
+		m_angleMotor.SetNeutralMode(Coast);
+	}
 
 void Angle::adjustAngle(bool up, bool down){
 	if(up && !down){

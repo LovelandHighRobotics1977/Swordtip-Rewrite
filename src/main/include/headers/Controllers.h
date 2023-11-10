@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _CONTROLLERS_H
+#define _CONTROLLERS_H
 
 #include "Libraries.h"
 
@@ -143,4 +144,6 @@ class Operator : public frc2::SubsystemBase {
 		}
 	private:
 		frc::XboxController m_XboxController;
-	};
+};
+
+#endif // _CONTROLLERS_H

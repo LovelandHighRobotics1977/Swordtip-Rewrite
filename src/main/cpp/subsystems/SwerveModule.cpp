@@ -77,25 +77,25 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 	angleOutput = m_turningPIDController.Calculate(units::degree_t{m_angleEncoder.GetAbsolutePosition()}, state.angle.Degrees());
 	
 	switch(m_angleEncoder.GetDeviceNumber()){
-		case 2:
+		case 4:
 			frc::SmartDashboard::PutNumber("FR Raw Angle", -state.angle.Degrees().value());
 			frc::SmartDashboard::PutNumber("FR Actual Angle", m_angleEncoder.GetAbsolutePosition());
 			frc::SmartDashboard::PutNumber("FR PID Angle", angleOutput);
 			frc::SmartDashboard::PutNumber("FR Velocity", driveOutput);
 			break;
-		case 5:
+		case 7:
 			frc::SmartDashboard::PutNumber("RR Raw Angle", -state.angle.Degrees().value());
 			frc::SmartDashboard::PutNumber("RR Actual Angle", m_angleEncoder.GetAbsolutePosition());
 			frc::SmartDashboard::PutNumber("RR PID Angle", angleOutput);
 			frc::SmartDashboard::PutNumber("RR Velocity", driveOutput);
 			break;
-		case 8:
+		case 10:
 			frc::SmartDashboard::PutNumber("RL Raw Angle", -state.angle.Degrees().value());
 			frc::SmartDashboard::PutNumber("RL Actual Angle", m_angleEncoder.GetAbsolutePosition());
 			frc::SmartDashboard::PutNumber("RL PID Angle", angleOutput);
 			frc::SmartDashboard::PutNumber("RL Velocity", driveOutput);
 			break;
-		case 11:
+		case 13:
 			frc::SmartDashboard::PutNumber("FL Raw Angle", -state.angle.Degrees().value());
 			frc::SmartDashboard::PutNumber("FL Actual Angle", m_angleEncoder.GetAbsolutePosition());
 			frc::SmartDashboard::PutNumber("FL PID Angle", angleOutput);

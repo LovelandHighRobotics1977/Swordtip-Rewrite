@@ -2,7 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#pragma once
+#ifndef _SUBSYSTEM_DRIVE_H
+#define _SUBSYSTEM_DRIVE_H
 
 #include "headers/Headers.h"
 #include "SwerveModule.h"
@@ -61,3 +62,5 @@ private:
 
 	frc::SwerveDriveOdometry<4> m_odometry;
 };
+
+#endif // _SUBSYSTEM_DRIVE_H

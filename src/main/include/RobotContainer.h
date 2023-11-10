@@ -2,7 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#pragma once
+#ifndef ROBOTCONTAINER_H
+#define ROBOTCONTAINER_H
 
 #include "headers/Headers.h"
 #include "subsystems/DriveSubsystem.h"
@@ -41,9 +42,11 @@ class RobotContainer {
 	// The chooser for the autonomous routines
 	frc::SendableChooser<frc2::Command*> m_chooser;
 
-	frc::Field2d m_field;
+	PDH* m_PDH = PDH::GetInstance();
 
-	frc::PowerDistribution m_PDH{1, frc::PowerDistribution::ModuleType::kRev};
+	frc::Field2d m_field;
 
 	void ConfigureButtonBindings();
 };
+
+#endif  // ROBOTCONTAINER_H

@@ -4,7 +4,8 @@
 
 // Be wary all who enter, for beyond lies the wall of include statements
 
-#pragma once
+#ifndef _LIBRARIES_H
+#define _LIBRARIES_H
 
 // c++
 #include <iostream>
@@ -105,3 +106,5 @@
 // frc power
 #include <frc/PowerDistribution.h>
 #include <frc/RobotController.h>
+
+#endif  // _LIBRARIES_H

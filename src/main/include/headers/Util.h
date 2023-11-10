@@ -1,6 +1,6 @@
 // Argument abstraction data types
-
-#pragma once
+#ifndef _UTIL_H
+#define _UTIL_H
 
 #include "Libraries.h"
 
@@ -39,3 +39,5 @@ struct Trapezoid{
 	double derivative;
 	const frc::TrapezoidProfile<units::radians>::Constraints constraint;
 };
+
+#endif // _UTIL_H

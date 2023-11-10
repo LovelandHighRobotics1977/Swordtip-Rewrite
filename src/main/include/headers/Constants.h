@@ -2,7 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#pragma once
+#ifndef _CONSTANTS_H
+#define _CONSTANTS_H
 
 #include "Libraries.h"
 #include "Util.h"
@@ -30,32 +31,32 @@ namespace Drivetrain {
 		namespace Module {
 			namespace Front {
 				namespace Left {
-					static constexpr int Drive = 9;
-					static constexpr int Angle = 10;
-					static constexpr int Encoder = 11;
+					static constexpr int Drive = 11;
+					static constexpr int Angle = 12;
+					static constexpr int Encoder = 13;
 					static constexpr double MagnetOffset = 360 - 210.762;
 					static constexpr frc::Translation2d Location = {+Frame::Measurments::Length_Location, +Frame::Measurments::Width_Location};
 				}
 				namespace Right {
-					static constexpr int Drive = 0;
-					static constexpr int Angle = 1;
-					static constexpr int Encoder = 2;
+					static constexpr int Drive = 2;
+					static constexpr int Angle = 3;
+					static constexpr int Encoder = 4;
 					static constexpr double MagnetOffset = 360 - 112.859;
 					static constexpr frc::Translation2d Location = {+Frame::Measurments::Length_Location, -Frame::Measurments::Width_Location};
 				}
 			}
 			namespace Rear {
 				namespace Left {
-					static constexpr int Drive = 6;
-					static constexpr int Angle = 7;
-					static constexpr int Encoder = 8;
+					static constexpr int Drive = 8;
+					static constexpr int Angle = 9;
+					static constexpr int Encoder = 10;
 					static constexpr double MagnetOffset = 360 - 250.609;
 					static constexpr frc::Translation2d Location = {-Frame::Measurments::Length_Location, +Frame::Measurments::Width_Location};
 					}
 				namespace Right {
-					static constexpr int Drive = 3;
-					static constexpr int Angle = 4;
-					static constexpr int Encoder = 5;
+					static constexpr int Drive = 5;
+					static constexpr int Angle = 6;
+					static constexpr int Encoder = 7;
 					static constexpr double MagnetOffset = 360 - 258.398;
 					static constexpr frc::Translation2d Location = {-Frame::Measurments::Length_Location, -Frame::Measurments::Width_Location};
 				}
@@ -144,7 +145,7 @@ namespace Drivetrain {
 namespace Mechanism {
 	namespace Angle {
 		namespace Motor {
-			static constexpr int ID = 12;
+			static constexpr int ID = 14;
 		}
 		namespace Limit {
 			static constexpr int Lower = 0;
@@ -152,7 +153,7 @@ namespace Mechanism {
 		}
 	}
 	namespace Intake {
-		static constexpr int ID = 13;
+		static constexpr int ID = 15;
 		enum Target {
 			Pickup = -1,
 			Off,
@@ -213,3 +214,5 @@ namespace Teleop {
 		}
 	}
 }
+
+#endif // CONSTANTS_H

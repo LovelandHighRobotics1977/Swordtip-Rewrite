@@ -2,7 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#pragma once
+#ifndef _SUBSYSTEM_SWERVE_MODULE_H
+#define _SUBSYSTEM_SWERVE_MODULE_H
 
 #include "headers/Headers.h"
 
@@ -39,3 +40,5 @@ class SwerveModule {
 		{Drivetrain::Movement::Maximum::Angular::Velocity*10, Drivetrain::Movement::Maximum::Angular::Acceleration*10}
 	};
 };
+
+#endif	// _SUBSYSTEM_SWERVE_MODULE_H

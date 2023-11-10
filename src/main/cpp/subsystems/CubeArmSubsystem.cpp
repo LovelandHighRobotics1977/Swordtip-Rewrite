@@ -35,10 +35,12 @@ frc2::StartEndCommand CubeArmSubsystem::ShootCube(){
 	);
 }
 
-frc2::StartEndCommand CubeArmSubsystem::PickupCube(){
-	return frc2::StartEndCommand( 
+frc2::FunctionalCommand CubeArmSubsystem::PickupCube(){
+	return frc2::FunctionalCommand( 
+		[this] { m_intake.setIntake(0); } ,
 		[this] { m_intake.setIntake(0.2); } , 
-		[this] { m_intake.setIntake(0); } , 
+		[this] (bool interrupted) { m_intake.setIntake(0); } , 
+		[this] { return (m_PDH->GetCurrent(14) > 7); },
 		{&m_intake}
 	);
 }

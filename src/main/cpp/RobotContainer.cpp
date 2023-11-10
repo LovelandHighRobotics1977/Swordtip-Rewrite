@@ -28,10 +28,11 @@ RobotContainer::RobotContainer() {
 	// Add all values and choosers to the dashboard
 	frc::Shuffleboard::GetTab("Match Dashboard").Add(m_chooser);
 
-	frc::Shuffleboard::GetTab("Match Dashboard").Add(m_PDH);
+	frc::Shuffleboard::GetTab("Match Dashboard").Add(m_PDH->m_PDH);
 
-	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("CAN Faults",[this] { return m_PDH.GetFaults().CanWarning; });
-	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("Brownouts",[this] { return m_PDH.GetFaults().Brownout; });
+	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("CAN bus off", [this] { return frc::RobotController::GetCANStatus().busOffCount; });
+	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("CAN Faults",[this] { return m_PDH->CanWarnings(); });
+	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("Brownouts",[this] { return m_PDH->Brownouts(); });
 	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("Brownout Voltage", [this] { return frc::RobotController::GetBrownoutVoltage().value(); });
 
 	frc::Shuffleboard::GetTab("Match Dashboard").AddDouble("Battery Voltage", [] { return frc::DriverStation::GetBatteryVoltage();});

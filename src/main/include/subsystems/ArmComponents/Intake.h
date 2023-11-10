@@ -1,6 +1,7 @@
-#include "headers/Headers.h"
+#ifndef _SUBSYSTEM_ARM_COMPONENTS_INTAKE_H
+#define _SUBSYSTEM_ARM_COMPONENTS_INTAKE_H
 
-#pragma once
+#include "headers/Headers.h"
 
 class Intake : public frc2::SubsystemBase {
 	public:
@@ -13,3 +14,5 @@ class Intake : public frc2::SubsystemBase {
 		WPI_TalonFX m_intakeMotor;
 	
 };
+
+#endif // _SUBSYSTEM_ARM_COMPONENTS_INTAKE_H

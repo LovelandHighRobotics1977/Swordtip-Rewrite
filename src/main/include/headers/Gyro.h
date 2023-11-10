@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _GYRO_H
+#define _GYRO_H
 
 #include "AHRS.h"
 
@@ -77,3 +78,5 @@ class Gyro {
 		return ahrs.GetRoll();
 	}
 };
+
+#endif	// _GYRO_H
