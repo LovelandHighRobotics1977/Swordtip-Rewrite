@@ -5,7 +5,10 @@
 #include "Constants.h"
 #include "Controllers.h"
 #include "Util.h" // User defined utility structs and functions
-#include "Gyro.h" // My custom NAVX2 implementation using the MXP port
-#include "PDH.h"  // My custom REV PDH singleton implementation
+
+// Singleton classes to prevent duplicates of objects
+#include "Gyro.h"
+#include "PDH.h"
+#include "Field.h"
 
 #endif  // _HEADERS_H

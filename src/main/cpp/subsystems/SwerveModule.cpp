@@ -53,13 +53,11 @@ SwerveModule::SwerveModule(const int driveMotorID,     const int angleMotorID,  
 	m_turningPIDController.EnableContinuousInput(0_deg, 360_deg);
 }
 
-/*
 frc::SwerveModuleState SwerveModule::GetState() {
 	auto speed = units::meters_per_second_t{m_driveMotor.GetSelectedSensorVelocity() * Drivetrain::Swerve::Motor::Drive::distance_per_pulse.value()};
 	auto angle = frc::Rotation2d{units::degree_t{m_angleEncoder.GetAbsolutePosition()}};
 	return {speed * 10, angle};
 }
-*/
 
 frc::SwerveModulePosition SwerveModule::GetPosition() {
 	return {units::meter_t{m_driveMotor.GetSelectedSensorPosition() * Drivetrain::Swerve::Motor::Drive::distance_per_pulse},

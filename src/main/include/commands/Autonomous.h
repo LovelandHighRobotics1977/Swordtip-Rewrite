@@ -19,6 +19,9 @@ namespace AutoRoutine {
     namespace Blue {
 
     }
+    namespace Odometry {
+        frc2::CommandPtr TestOne(DriveSubsystem *drive);
+    }
 }
 
 #endif  // _COMMANDS_AUTONOMOUS_H

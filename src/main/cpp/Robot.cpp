@@ -5,31 +5,18 @@
 #include "Robot.h"
 
 void Robot::RobotInit() {}
-
-/**
- * This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
-void Robot::RobotPeriodic() {
-	frc2::CommandScheduler::GetInstance().Run();
-}
-
+void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
+void Robot::DisabledExit() {}
 
-/**
- * This autonomous runs the autonomous command selected by your {@link
- * RobotContainer} class.
- */
 void Robot::AutonomousInit() {
 	m_autonomousCommand = m_container.GetAutonomousCommand();
-
-	if (m_autonomousCommand != nullptr) {
-		m_autonomousCommand->Schedule();
-	}
+	if (m_autonomousCommand != nullptr) { m_autonomousCommand->Schedule(); }
 }
 void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
 	if (m_autonomousCommand != nullptr) {
@@ -37,14 +24,13 @@ void Robot::TeleopInit() {
 		m_autonomousCommand = nullptr;
 	}
 }
-void Robot::TeleopPeriodic() {
-	
-}
+void Robot::TeleopPeriodic() {}
+void Robot::TeleopExit() {}
 
+void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
+void Robot::TestExit() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() {
-	return frc::StartRobot<Robot>();
-}
+int main() {return frc::StartRobot<Robot>();}
 #endif

@@ -18,35 +18,42 @@
  * commands, and button mappings) should be declared here.
  */
 class RobotContainer {
- public:
-	RobotContainer();
+	public:
+		RobotContainer();
 
-	frc2::Command* GetAutonomousCommand();
+		frc2::Command* GetAutonomousCommand();
 
- private:
-	// Controllers for driving the robot
-	Driver m_driver{Teleop::Controller::Ports::Driver};
-	Operator m_operator{Teleop::Controller::Ports::Operator};
+	private:
 
-	// The robot's subsystems and commands are defined here...
+		// Configuration functions
+		void ConfigureButtonBindings();
+		void ConfigureAutonomousChooser();
+		void ConfigureDashboard();
+		void ConfigureDefaultCommands();
 
-	// The robot's subsystems
-	DriveSubsystem m_drive;
-	CubeArmSubsystem m_CubeArm;
+		// Controllers
+		Driver m_driver{Teleop::Controller::Ports::Driver};
+		Operator m_operator{Teleop::Controller::Ports::Operator};
 
-	// Auto routines
-	frc2::CommandPtr a_fireCubeOnly = AutoRoutine::fireCubeOnly(&m_drive, &m_CubeArm);
-	frc2::CommandPtr a_red_midPickupCube = AutoRoutine::Red::MidPickupCube(&m_drive, &m_CubeArm);
-	frc2::CommandPtr a_red_driveForward = AutoRoutine::Red::DriveForward(&m_drive, &m_CubeArm);
+		// Subsystems
+		DriveSubsystem m_drive;
+		CubeArmSubsystem m_CubeArm;
 
-	// The chooser for the autonomous routines
-	frc::SendableChooser<frc2::Command*> m_chooser;
+		// Diagnostic tools
+		PDH* m_PDH = PDH::GetInstance();
+		Field2d* m_field = Field2d::GetInstance();
 
-	PDH* m_PDH = PDH::GetInstance();
+	// Autonomous
 
-	frc::Field2d m_field;
+		// Routine selector on dashboard
+		frc::SendableChooser<frc2::Command*> m_chooser;
 
-	void ConfigureButtonBindings();
+		// Auto routines
+		frc2::CommandPtr a_fireCubeOnly = AutoRoutine::fireCubeOnly(&m_drive, &m_CubeArm);
+		frc2::CommandPtr a_red_midPickupCube = AutoRoutine::Red::MidPickupCube(&m_drive, &m_CubeArm);
+		frc2::CommandPtr a_red_driveForward = AutoRoutine::Red::DriveForward(&m_drive, &m_CubeArm);
+
+		frc2::CommandPtr a_TESTING = AutoRoutine::Odometry::TestOne(&m_drive);
 };
 
 #endif  // ROBOTCONTAINER_H

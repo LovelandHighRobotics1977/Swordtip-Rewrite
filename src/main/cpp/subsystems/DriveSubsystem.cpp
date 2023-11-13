@@ -34,8 +34,6 @@ DriveSubsystem::DriveSubsystem()
 				frc::Pose2d{}} {}
 
 void DriveSubsystem::Periodic() {
-	// Implementation of subsystem periodic method goes here.
-
 	OdometryData data;
 
 	data.angle = DriveSubsystem::GetHeading();
@@ -49,6 +47,7 @@ void DriveSubsystem::Periodic() {
 }
 
 void DriveSubsystem::Drive(DriveData data) {
+
 	fieldRelativeSpeeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(frc::ChassisSpeeds{data.forward, -data.strafe, data.rotate}, DriveSubsystem::GetHeading());
 	robotRelativeSpeeds = frc::ChassisSpeeds{data.forward, -data.strafe, data.rotate};
 
@@ -57,11 +56,12 @@ void DriveSubsystem::Drive(DriveData data) {
 	DriveKinematics.DesaturateWheelSpeeds(&states, Teleop::Parameter::Linear::Velocity);
 
 	auto [fl, fr, rl, rr] = states;
-
+	
 	m_frontLeft.SetDesiredState(fl);
 	m_frontRight.SetDesiredState(fr);
 	m_rearLeft.SetDesiredState(rl);
 	m_rearRight.SetDesiredState(rr);
+
 }
 
 void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {

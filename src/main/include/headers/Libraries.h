@@ -7,34 +7,95 @@
 #ifndef _LIBRARIES_H
 #define _LIBRARIES_H
 
-// c++
+// Standard Library
 #include <iostream>
-#include <math.h>
-#include <cmath>
-#include <variant>
-#include <vector>
-#include <functional>
-#include <numbers>
-#include <utility>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <functional>
+#include <utility>
+#include <cmath>
+#include <math.h>
+#include <variant>
 
-// frc kinematics
+// Robot Program Framework
+#include <frc/TimedRobot.h>
+
+// CTRE Phoenix Hardware API
+#include <ctre/Phoenix.h>
+
+// REV Per-Device Hardware APIs
+#include <rev/CANSparkMax.h>
+
+// FRC PID Controller Libraries
+#include <frc/controller/PIDController.h>
+#include <frc/controller/ProfiledPIDController.h>
+
+// Hardware Interface Libraries
+#include <frc/PowerDistribution.h>
+#include <frc/RobotController.h>
+#include <frc/DigitalInput.h>
+#include <frc/RobotBase.h>
+#include <frc/Encoder.h>
+
+// Operator Input Libraries
+#include <frc/MathUtil.h>
+#include <frc/XboxController.h>
+#include <frc/PS4Controller.h>
+#include <frc/Joystick.h>
+#include <frc/GenericHID.h>
+#include <frc/filter/SlewRateLimiter.h>
+
+// Dashboard Libraries
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/smartdashboard/Field2d.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/DriverStation.h>
+
+// Vision Libraries
+#include <cameraserver/CameraServer.h>
+
+// Kinematics Libraries
 #include <frc/kinematics/SwerveModulePosition.h>
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/kinematics/ChassisSpeeds.h>
+
+// Trajectory Libraries
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 
-// frc geometry
+// Geometry Libraries
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Translation2d.h>
+#include <frc/geometry/Translation3d.h>
 #include <frc/geometry/Pose2d.h>
 
-// units
+// FRC2 Command Libraries
+#include <frc2/command/Command.h>
+#include <frc2/command/InstantCommand.h>
+#include <frc2/command/RunCommand.h>
+#include <frc2/command/WaitCommand.h>
+#include <frc2/command/WaitUntilCommand.h>
+#include <frc2/command/ParallelRaceGroup.h>
+#include <frc2/command/ParallelCommandGroup.h>
+#include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/FunctionalCommand.h>
+#include <frc2/command/StartEndCommand.h>
+#include <frc2/command/SwerveControllerCommand.h>
+#include <frc2/command/PIDCommand.h>
+
+// FRC2 Trigger Libraries
+#include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/button/Trigger.h>
+
+// FRC2 Subsystem Libraries
+#include <frc2/command/SubsystemBase.h>
+
+// Units Libraries
 #include <units/velocity.h>
 #include <units/acceleration.h>
 #include <units/angular_velocity.h>
@@ -46,65 +107,7 @@
 #include <units/math.h>
 #include <units/dimensionless.h>
 
-// ctre
-#include <ctre/Phoenix.h>
-
-// rev
-#include <rev/CANSparkMax.h>
-#include <frc/motorcontrol/PWMSparkMax.h>
-#include <frc/motorcontrol/Spark.h>
-
-// pid controllers
-#include <frc/controller/PIDController.h>
-#include <frc/controller/ProfiledPIDController.h>
-
-// encoders and gyros
-#include <frc/DigitalInput.h>
-#include <frc/Encoder.h>
-
-// driver inputs
-#include <frc/MathUtil.h> // for frc::ApplyDeadband
-#include <frc/XboxController.h>
-#include <frc/PS4Controller.h>
-#include <frc/Joystick.h>
-#include <frc/filter/SlewRateLimiter.h>
-#include <frc/GenericHID.h>
-
-// frc timed
-#include <frc/TimedRobot.h>
+// Timing and Misc Libraries
 #include <frc/Timer.h>
-
-// dashboard
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/smartdashboard/Field2d.h>
-#include <frc/smartdashboard/SendableChooser.h>
-#include <frc/shuffleboard/Shuffleboard.h>
-#include <frc/DriverStation.h>
-
-// frc command types
-#include <frc2/command/SubsystemBase.h>
-#include <frc2/command/Command.h>
-#include <frc2/command/ParallelRaceGroup.h>
-#include <frc2/command/ParallelCommandGroup.h>
-#include <frc2/command/SequentialCommandGroup.h>
-#include <frc2/command/RunCommand.h>
-#include <frc2/command/InstantCommand.h>
-#include <frc2/command/PIDCommand.h>
-#include <frc2/command/WaitCommand.h>
-#include <frc2/command/FunctionalCommand.h>
-#include <frc2/command/StartEndCommand.h>
-#include <frc2/command/SwerveControllerCommand.h>
-#include <frc2/command/WaitUntilCommand.h>
-
-// frc command triggers
-#include <frc2/command/button/JoystickButton.h>
-#include <frc2/command/button/Trigger.h>
-
-// vision
-#include <cameraserver/CameraServer.h>
-
-// frc power
-#include <frc/PowerDistribution.h>
-#include <frc/RobotController.h>
 
 #endif  // _LIBRARIES_H

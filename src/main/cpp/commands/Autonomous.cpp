@@ -52,3 +52,17 @@ frc2::CommandPtr AutoRoutine::Red::DriveForward(DriveSubsystem *drive, CubeArmSu
 		)
 	).ToPtr();
 }
+
+frc2::CommandPtr AutoRoutine::Odometry::TestOne(DriveSubsystem *drive) {
+	return frc2::SequentialCommandGroup(
+		drive->ZeroOdometry({8_ft, 10_ft, 0_deg}),
+		SwerveCommand::FollowPath(drive, 
+			{5_ft, 10_ft, 0_deg},
+			{
+				{16_in + 5_ft, -10_in + 10_ft},
+				{20_in + 5_ft, -50_in + 10_ft}
+			}, 
+			{120_in + 5_ft, -65_in + 10_ft, 0_deg}
+		)
+	).ToPtr();
+}
