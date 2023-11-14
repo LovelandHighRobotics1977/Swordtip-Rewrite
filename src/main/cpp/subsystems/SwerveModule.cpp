@@ -54,9 +54,9 @@ SwerveModule::SwerveModule(const int driveMotorID,     const int angleMotorID,  
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
-	auto speed = units::meters_per_second_t{m_driveMotor.GetSelectedSensorVelocity() * Drivetrain::Swerve::Motor::Drive::distance_per_pulse.value()};
+	auto speed = units::meters_per_second_t{(m_driveMotor.GetSelectedSensorVelocity() * 10) * Drivetrain::Swerve::Motor::Drive::distance_per_pulse.value()};
 	auto angle = frc::Rotation2d{units::degree_t{m_angleEncoder.GetAbsolutePosition()}};
-	return {speed * 10, angle};
+	return {speed, angle};
 }
 
 frc::SwerveModulePosition SwerveModule::GetPosition() {
@@ -69,7 +69,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 	state = frc::SwerveModuleState::Optimize(referenceState, units::degree_t{m_angleEncoder.GetAbsolutePosition()});
 
 	// Calculate the drive output from the drive PID controller.
-	driveOutput = m_drivePIDController.Calculate((m_driveMotor.GetSelectedSensorVelocity() * Drivetrain::Swerve::Motor::Drive::distance_per_pulse.value()), state.speed.value());
+	driveOutput = state.speed.value() / Drivetrain::Movement::Maximum::Linear::Velocity.value();
 
 	// Calculate the turning motor output from the turning PID controller.
 	angleOutput = m_turningPIDController.Calculate(units::degree_t{m_angleEncoder.GetAbsolutePosition()}, state.angle.Degrees());
@@ -108,5 +108,9 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 	}else{
 		m_angleMotor.Set(TalonFXControlMode::Position, -state.angle.Degrees().value() * (4096/360));
 	}
-	
+}
+
+void SwerveModule::SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode){
+	m_driveMotor.SetNeutralMode(mode);
+	m_angleMotor.SetNeutralMode(mode);
 }

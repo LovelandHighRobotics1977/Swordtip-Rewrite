@@ -44,6 +44,8 @@ void DriveSubsystem::Periodic() {
 	data.positions[3] = m_rearRight.GetPosition();
 
 	m_odometry.Update(data.angle, data.positions);
+
+	Field2d::GetInstance()->m_field.SetRobotPose(m_odometry.GetPose().X(),m_odometry.GetPose().Y(),{m_odometry.GetPose().Rotation().Degrees()});
 }
 
 void DriveSubsystem::Drive(DriveData data) {
@@ -75,22 +77,30 @@ void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desir
 }
 
 frc::Rotation2d DriveSubsystem::GetHeading(){
-	return -gyro->GetRotation2d();
-}
+	switch(frc::DriverStation::GetAlliance()){
+		case frc::DriverStation::kRed:
+			return units::degree_t{-Gyro::GetInstance()->ahrs.GetYaw()};
+			break;
 
-frc2::CommandPtr DriveSubsystem::ZeroHeading() {
-	return frc2::InstantCommand( [this] {gyro->Reset();} ).ToPtr();
+		case frc::DriverStation::kBlue:
+			return units::degree_t{180 - Gyro::GetInstance()->ahrs.GetYaw()};
+			break;
+
+		case frc::DriverStation::kInvalid:
+			return units::degree_t{180 - Gyro::GetInstance()->ahrs.GetYaw()};
+			break;
+
+		default:
+			return units::degree_t{180 - Gyro::GetInstance()->ahrs.GetYaw()};
+			break;
+	}
 }
 
 frc2::SequentialCommandGroup DriveSubsystem::ZeroOdometry(frc::Pose2d pose) {
 	return frc2::SequentialCommandGroup(
-		frc2::InstantCommand( [this, pose] { DriveSubsystem::ResetOdometry(pose); } ),
-		frc2::InstantCommand( [this] {gyro->Reset();} )
+		frc2::InstantCommand( [this] {Gyro::GetInstance()->ahrs.Reset();} ),
+		frc2::InstantCommand( [this, pose] { DriveSubsystem::ResetOdometry(pose); } )
 	);
-}
-
-double DriveSubsystem::GetTurnRate() {
-	return -gyro->GetVelocityZ();
 }
 
 frc::Pose2d DriveSubsystem::GetPose() {
@@ -100,7 +110,7 @@ frc::Pose2d DriveSubsystem::GetPose() {
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
 	OdometryData data;
 
-	data.angle = gyro->GetRotation2d();
+	data.angle = DriveSubsystem::GetHeading();
 
 	data.positions[0] = m_frontLeft.GetPosition();
 	data.positions[1] = m_frontRight.GetPosition();
@@ -108,4 +118,11 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
 	data.positions[3] = m_rearRight.GetPosition();
 
 	m_odometry.ResetPosition(data.angle, data.positions, pose);
+}
+
+void DriveSubsystem::SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode){
+	m_rearLeft.SetNeutralMode(mode);
+	m_frontLeft.SetNeutralMode(mode);
+	m_frontRight.SetNeutralMode(mode);
+	m_rearRight.SetNeutralMode(mode);
 }

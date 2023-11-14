@@ -17,7 +17,7 @@ class Driver : public frc2::SubsystemBase {
 		bool trigger_one;
 		bool trigger_two;
 
-		bool emergency_stop;
+		bool coast_mode_toggle;
 
 		double throttle;
 
@@ -42,7 +42,7 @@ class Driver : public frc2::SubsystemBase {
 				trigger_one = m_Joystick.GetRawButton(1);
 				trigger_two = m_Joystick.GetRawButton(15);
 
-				emergency_stop = m_Joystick.GetRawButton(5);
+				coast_mode_toggle = m_Joystick.GetRawButton(5);
 
 				throttle = (-m_Joystick.GetZ() + 1) / 2;
 
@@ -59,7 +59,7 @@ class Driver : public frc2::SubsystemBase {
 				trigger_one = m_Joystick.GetRawButton(1);
 				trigger_two = m_Joystick.GetRawButton(1);
 
-				emergency_stop = m_Joystick.GetRawButton(8);
+				coast_mode_toggle = m_Joystick.GetRawButton(8);
 
 				throttle = (-m_Joystick.GetRawAxis(4) + 1) / 2;
 				
@@ -77,7 +77,7 @@ class Driver : public frc2::SubsystemBase {
 				trigger_one = m_Joystick.GetRawButton(1);
 				trigger_two = m_Joystick.GetRawButton(1);
 
-				emergency_stop = m_Joystick.GetRawButton(4);
+				coast_mode_toggle = m_Joystick.GetRawButton(4);
 
 				throttle = (-m_Joystick.GetThrottle() + 1) / 2;
 

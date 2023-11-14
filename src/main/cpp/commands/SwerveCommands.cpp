@@ -19,8 +19,8 @@ frc2::SequentialCommandGroup SwerveCommand::FollowPath(DriveSubsystem *drive, fr
 	return frc2::SequentialCommandGroup(
 		frc2::InstantCommand( [Trajectory] { Field2d::GetInstance()->m_field.GetObject("Trajectory")->SetTrajectory(Trajectory); } ),
 		frc2::SwerveControllerCommand<4>(
-			Trajectory, 	
-			[drive]() { return drive->GetPose(); },
+			Trajectory,
+			[drive]() { return drive->GetPose(); }, // BULLSHIT MAGIC NUMBER
 			drive->DriveKinematics,
 			frc2::PIDController{Autonomous::Controller::Proportional::Forward, 0, 0},
 			frc2::PIDController{Autonomous::Controller::Proportional::Strafe, 0, 0},

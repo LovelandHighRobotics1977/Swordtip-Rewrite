@@ -32,15 +32,13 @@ public:
 
 	frc::Rotation2d GetHeading();
 
-	frc2::CommandPtr ZeroHeading();
-
 	frc2::SequentialCommandGroup ZeroOdometry(frc::Pose2d pose);
 
 	void ResetOdometry(frc::Pose2d pose);
 
-	double GetTurnRate();
-
 	frc::Pose2d GetPose();
+
+	void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode);
 
 	frc::SwerveDriveKinematics<4> DriveKinematics{
 		frc::Translation2d{Drivetrain::Swerve::Module::Front::Left::Location},

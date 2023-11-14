@@ -15,6 +15,8 @@ class SwerveModule {
 
 	frc::SwerveModulePosition GetPosition();
 
+	void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode);
+
 	void SetDesiredState(const frc::SwerveModuleState& state, bool usePID = true);
 
  private:
@@ -26,12 +28,6 @@ class SwerveModule {
 
 	double driveOutput;
 	double angleOutput;
-
-	frc2::PIDController m_drivePIDController{
-		Drivetrain::Swerve::PID::Controller::Drive::P, 
-		Drivetrain::Swerve::PID::Controller::Drive::I,
-		Drivetrain::Swerve::PID::Controller::Drive::D
-	};
 
 	frc::ProfiledPIDController<units::degrees> m_turningPIDController{
 		Drivetrain::Swerve::PID::Controller::Turning::P, 

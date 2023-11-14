@@ -5,7 +5,7 @@ Angle::Angle():
 	m_lowerSwitch{Mechanism::Angle::Limit::Lower},
 	m_upperSwitch{Mechanism::Angle::Limit::Upper}{
 
-		m_angleMotor.SetNeutralMode(Coast);
+		m_angleMotor.SetNeutralMode(Brake);
 	}
 
 void Angle::adjustAngle(bool up, bool down){

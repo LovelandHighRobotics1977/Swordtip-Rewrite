@@ -23,7 +23,7 @@ namespace Drivetrain {
 			// circumscribed circle around length and width location
 			namespace Circle {
 				static const auto Radius = units::meter_t{std::hypot(Frame::Measurments::Length_Location.value(), Frame::Measurments::Width_Location.value()) / 39.375};
-				static const auto Circumference = (2*(2*Radius) * M_PI);
+				static const auto Circumference = ((2*Radius) * M_PI);
 			}
 		}
 	}
@@ -117,14 +117,7 @@ namespace Drivetrain {
 			}
 			namespace Angular {
 				// ~ 773 degrees per second
-				static const auto Velocity = units::degrees_per_second_t{(
-					360 * 
-					(
-						Linear::Velocity 
-						/ 
-						Frame::Measurments::Circle::Circumference
-					)
-					).value()};
+				static const auto Velocity = units::degrees_per_second_t{( 360 * ( Linear::Velocity / Frame::Measurments::Circle::Circumference ) ).value()};
 				static const auto Acceleration = units::degrees_per_second_squared_t{Velocity.value()};
 			}
 		}

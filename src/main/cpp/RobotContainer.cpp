@@ -52,33 +52,34 @@ void RobotContainer::ConfigureDashboard() {
 
 	DASHBOARD.Add(m_field->m_field);
 
-	DASHBOARD.AddDouble("Heading", [this] { return -m_drive.GetHeading().Degrees().value(); });
+	DASHBOARD.AddDouble("Heading", [] { return Gyro::GetInstance()->ahrs.GetYaw(); });
 
 	DASHBOARD.AddDouble("X Pos", [this] { return m_drive.GetPose().X().value(); });
 	DASHBOARD.AddDouble("Y Pos", [this] { return m_drive.GetPose().Y().value(); });
-	DASHBOARD.AddDouble("Angle", [this] { return m_drive.GetPose().Rotation().Degrees().value(); });
+	DASHBOARD.AddDouble("Angle", [this] { return m_drive.GetHeading().Degrees().value(); });
 }
 
 void RobotContainer::ConfigureDefaultCommands() {
 	m_driver.SetDefaultCommand(frc2::RunCommand( [this] { m_driver.update(); } , {&m_driver} ));
 	m_operator.SetDefaultCommand(frc2::RunCommand( [this] { m_operator.update(); } , {&m_operator} ));
 	m_CubeArm.SetDefaultCommand(frc2::RunCommand( [this] { m_CubeArm.setTarget(m_operator.speed); } , {&m_CubeArm} ));
-	m_drive.SetDefaultCommand(frc2::ParallelCommandGroup(
-		frc2::RunCommand( 
-			[this] { m_drive.Drive({ 
-				m_driver.forward * Drivetrain::Movement::Maximum::Linear::Velocity, 
-				m_driver.strafe * Drivetrain::Movement::Maximum::Linear::Velocity, 
-				m_driver.rotate * Drivetrain::Movement::Maximum::Angular::Velocity, 
-				m_driver.field_relative });}, 
-			{&m_drive}
-		),
-		frc2::RunCommand([this]{ m_field->m_field.SetRobotPose(m_drive.GetPose()); })
+	m_drive.SetDefaultCommand(frc2::RunCommand( 
+		[this] { m_drive.Drive({ 
+			m_driver.forward * Drivetrain::Movement::Maximum::Linear::Velocity, 
+			m_driver.strafe * Drivetrain::Movement::Maximum::Linear::Velocity, 
+			m_driver.rotate * Drivetrain::Movement::Maximum::Angular::Velocity, 
+			m_driver.field_relative });}, 
+		{&m_drive}
 	));
 }
 
 void RobotContainer::ConfigureButtonBindings() {
 	frc2::Trigger resetGyro([this] { return m_driver.gyro_reset; });
-	resetGyro.OnTrue(m_drive.ZeroHeading());
+	resetGyro.OnTrue(frc2::InstantCommand( [] {Gyro::GetInstance()->ahrs.Reset();} ).ToPtr());
+
+	frc2::Trigger bullshitMode([this] { return m_driver.coast_mode_toggle; });
+	bullshitMode.OnTrue(frc2::InstantCommand( [this] { m_drive.SetNeutralMode(NeutralMode::Coast); }).ToPtr());
+	bullshitMode.OnFalse(frc2::InstantCommand( [this] { m_drive.SetNeutralMode(NeutralMode::Brake); }).ToPtr());
 	
 	frc2::Trigger shootEnable([this] { return (m_operator.shootEnable); });
 	shootEnable.WhileTrue(m_CubeArm.ShootCube().ToPtr());
