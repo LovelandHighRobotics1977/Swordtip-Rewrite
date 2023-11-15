@@ -69,7 +69,8 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 	state = frc::SwerveModuleState::Optimize(referenceState, units::degree_t{m_angleEncoder.GetAbsolutePosition()});
 
 	// Calculate the drive output from the drive PID controller.
-	driveOutput = state.speed.value() / Drivetrain::Movement::Maximum::Linear::Velocity.value();
+	driveOutputPID = m_drivePIDController.Calculate(((m_driveMotor.GetSelectedSensorVelocity()) * Drivetrain::Swerve::Motor::Drive::distance_per_pulse.value()), state.speed.value());
+	driveOutput = (state.speed.value() / Drivetrain::Movement::Maximum::Linear::Velocity.value());
 
 	// Calculate the turning motor output from the turning PID controller.
 	angleOutput = m_turningPIDController.Calculate(units::degree_t{m_angleEncoder.GetAbsolutePosition()}, state.angle.Degrees());
@@ -79,7 +80,7 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 			frc::SmartDashboard::PutNumber("FR Raw Angle", -state.angle.Degrees().value());
 			frc::SmartDashboard::PutNumber("FR Actual Angle", m_angleEncoder.GetAbsolutePosition());
 			frc::SmartDashboard::PutNumber("FR PID Angle", angleOutput);
-			frc::SmartDashboard::PutNumber("FR Velocity", driveOutput);
+			frc::SmartDashboard::PutNumber("FR Velocity", driveOutputPID);
 			break;
 		case 7:
 			frc::SmartDashboard::PutNumber("RR Raw Angle", -state.angle.Degrees().value());
@@ -102,10 +103,12 @@ void SwerveModule::SetDesiredState(const frc::SwerveModuleState& referenceState,
 	}
 
 	// Set the motor outputs.
-	m_driveMotor.Set(driveOutput);
+	
 	if(usePID){
+		m_driveMotor.Set(driveOutput);
 		m_angleMotor.Set(-angleOutput);
 	}else{
+		m_driveMotor.Set(driveOutputPID);
 		m_angleMotor.Set(TalonFXControlMode::Position, -state.angle.Degrees().value() * (4096/360));
 	}
 }

@@ -9,6 +9,8 @@
 #include "commands/ArmCommands.h"
 #include "commands/SwerveCommands.h"
 
+#include "autonomous/Test.h"
+
 namespace AutoRoutine {
     frc2::CommandPtr fireCubeOnly(DriveSubsystem *drive, CubeArmSubsystem *arm);
 
@@ -20,5 +22,7 @@ namespace AutoRoutine {
 
     }
 }
+
+void Generate(DriveSubsystem *drive, CubeArmSubsystem *arm);
 
 #endif  // _COMMANDS_AUTONOMOUS_H

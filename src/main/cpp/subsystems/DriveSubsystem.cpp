@@ -45,7 +45,7 @@ void DriveSubsystem::Periodic() {
 
 	m_odometry.Update(data.angle, data.positions);
 
-	Field2d::GetInstance()->m_field.SetRobotPose(m_odometry.GetPose().X(),m_odometry.GetPose().Y(),{m_odometry.GetPose().Rotation().Degrees()});
+	Field2d::GetInstance()->m_field.SetRobotPose(m_odometry.GetPose());
 }
 
 void DriveSubsystem::Drive(DriveData data) {

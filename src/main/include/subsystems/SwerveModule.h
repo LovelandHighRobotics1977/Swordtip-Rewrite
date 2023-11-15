@@ -27,7 +27,14 @@ class SwerveModule {
 	frc::SwerveModuleState state;
 
 	double driveOutput;
+	double driveOutputPID;
 	double angleOutput;
+
+	frc2::PIDController m_drivePIDController{
+		Drivetrain::Swerve::PID::Controller::Drive::P, 
+		Drivetrain::Swerve::PID::Controller::Drive::I,
+		Drivetrain::Swerve::PID::Controller::Drive::D
+	};
 
 	frc::ProfiledPIDController<units::degrees> m_turningPIDController{
 		Drivetrain::Swerve::PID::Controller::Turning::P, 

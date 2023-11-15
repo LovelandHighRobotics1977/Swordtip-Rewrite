@@ -166,8 +166,8 @@ namespace Conversions {
 namespace AutonomousMode {
     namespace Parameter {
 		namespace Linear {
-			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 10;
-			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration / 10;
+			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 5;
+			static const auto Acceleration = Drivetrain::Movement::Maximum::Linear::Acceleration;
 		}
 		namespace Angular {
 			static const auto Velocity = Drivetrain::Movement::Maximum::Angular::Velocity;
