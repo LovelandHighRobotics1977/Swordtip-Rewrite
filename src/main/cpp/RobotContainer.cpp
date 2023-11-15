@@ -7,11 +7,7 @@
 #include "subsystems/DriveSubsystem.h"
 
 void RobotContainer::ConfigureAutonomousChooser() {
-	if(frc::RobotBase::IsReal()){
-		m_chooser.SetDefaultOption("Only fire a cube", a_fireCubeOnly.get());
-	}else{
-		m_chooser.SetDefaultOption("TESTING", a_TESTING.get());
-	}
+	m_chooser.SetDefaultOption("Only fire a cube", a_fireCubeOnly.get());
 
 	switch (frc::DriverStation::Alliance()){
 		case frc::DriverStation::kRed:
@@ -34,11 +30,12 @@ void RobotContainer::ConfigureDashboard() {
 
 	DASHBOARD.Add(m_chooser);
 
-	DASHBOARD.Add(m_PDH->m_PDH);
+	DASHBOARD.Add(PDH::GetInstance()->m_PDH);
+	DASHBOARD.Add(Field2d::GetInstance()->m_field);
 
 	DASHBOARD.AddDouble("CAN bus off", [] { return frc::RobotController::GetCANStatus().busOffCount; });
-	DASHBOARD.AddDouble("CAN Faults",[this] { return m_PDH->CanWarnings(); });
-	DASHBOARD.AddDouble("Brownouts",[this] { return m_PDH->Brownouts(); });
+	DASHBOARD.AddDouble("CAN Faults",[] { return PDH::GetInstance()->CanWarnings(); });
+	DASHBOARD.AddDouble("Brownouts",[] { return PDH::GetInstance()->Brownouts(); });
 	DASHBOARD.AddDouble("Brownout Voltage", [] { return frc::RobotController::GetBrownoutVoltage().value(); });
 
 	DASHBOARD.AddDouble("Battery Voltage", [] { return frc::DriverStation::GetBatteryVoltage();});
@@ -49,8 +46,6 @@ void RobotContainer::ConfigureDashboard() {
 	DASHBOARD.AddBoolean("Aim High", [this] { return (m_CubeArm.getTarget() == 3) || (m_CubeArm.getTarget() == 4); });
 
 	DASHBOARD.AddDouble("Throttle", [this] { return m_driver.throttle; });
-
-	DASHBOARD.Add(m_field->m_field);
 
 	DASHBOARD.AddDouble("Heading", [] { return Gyro::GetInstance()->ahrs.GetYaw(); });
 

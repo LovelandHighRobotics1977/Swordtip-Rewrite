@@ -40,4 +40,16 @@ struct Trapezoid{
 	const frc::TrapezoidProfile<units::radians>::Constraints constraint;
 };
 
+enum matchAlliance {
+	Red,
+	Blue,
+	Both
+};
+
+struct AutonomousRoutine {
+	std::function<std::string()> GetName;
+	std::function<frc::DriverStation::Alliance()> GetAlliance;
+	std::function<frc2::CommandPtr()> GetCommand;
+};
+
 #endif // _UTIL_H

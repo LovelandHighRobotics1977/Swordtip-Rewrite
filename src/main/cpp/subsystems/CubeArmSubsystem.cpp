@@ -56,7 +56,7 @@ frc2::FunctionalCommand CubeArmSubsystem::RaiseArm(){
 	return frc2::FunctionalCommand(
 		[this] {m_angle.adjustAngle(0, 0); },
 		[this] {m_angle.adjustAngle(true, 0); },
-		[this] (bool interrupted) {m_angle.adjustAngle(0, 0); },
+		[this] (bool interrupted) { m_angle.adjustAngle(0, 0); },
 		[this] { return (!m_angle.GetUpperSwitch()); },
 		{&m_angle}
 	);

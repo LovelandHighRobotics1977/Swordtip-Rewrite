@@ -32,16 +32,12 @@ class RobotContainer {
 		void ConfigureDefaultCommands();
 
 		// Controllers
-		Driver m_driver{Teleop::Controller::Ports::Driver};
-		Operator m_operator{Teleop::Controller::Ports::Operator};
+		Driver m_driver{TeleoperatedMode::Controller::Ports::Driver};
+		Operator m_operator{TeleoperatedMode::Controller::Ports::Operator};
 
 		// Subsystems
 		DriveSubsystem m_drive;
 		CubeArmSubsystem m_CubeArm;
-
-		// Diagnostic tools
-		PDH* m_PDH = PDH::GetInstance();
-		Field2d* m_field = Field2d::GetInstance();
 
 	// Autonomous
 
@@ -52,8 +48,6 @@ class RobotContainer {
 		frc2::CommandPtr a_fireCubeOnly = AutoRoutine::fireCubeOnly(&m_drive, &m_CubeArm);
 		frc2::CommandPtr a_red_midPickupCube = AutoRoutine::Red::MidPickupCube(&m_drive, &m_CubeArm);
 		frc2::CommandPtr a_red_driveForward = AutoRoutine::Red::DriveForward(&m_drive, &m_CubeArm);
-
-		frc2::CommandPtr a_TESTING = AutoRoutine::Odometry::TestOne(&m_drive);
 };
 
 #endif  // ROBOTCONTAINER_H

@@ -29,9 +29,7 @@ class Robot : public frc::TimedRobot {
   void TestExit() override;
 
  private:
-  // Have it null by default so that if testing teleop it
-  // doesn't have undefined behavior and potentially crash.
-  frc2::Command* m_autonomousCommand = nullptr;
+  frc2::Command* m_autonomousCommand;
 
   RobotContainer m_container;
 };

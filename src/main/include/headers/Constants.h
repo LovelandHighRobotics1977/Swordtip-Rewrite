@@ -163,7 +163,7 @@ namespace Conversions {
 	static constexpr auto DegToSensorTicks = 4096 / 360;
 }
 
-namespace Autonomous {
+namespace AutonomousMode {
     namespace Parameter {
 		namespace Linear {
 			static const auto Velocity = Drivetrain::Movement::Maximum::Linear::Velocity / 10;
@@ -189,7 +189,7 @@ namespace Autonomous {
 	}
 }
 
-namespace Teleop {
+namespace TeleoperatedMode {
 	namespace Parameter {
 		namespace Linear {
 			// Max horizontal velocity of ~16 feet per second

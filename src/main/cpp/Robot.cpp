@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
+#include "commands/Autonomous.h"
 
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
@@ -13,7 +14,9 @@ void Robot::DisabledExit() {}
 
 void Robot::AutonomousInit() {
 	m_autonomousCommand = m_container.GetAutonomousCommand();
-	if (m_autonomousCommand != nullptr) { m_autonomousCommand->Schedule(); }
+	if (m_autonomousCommand != nullptr) {
+		m_autonomousCommand->Schedule(); 
+	}
 }
 void Robot::AutonomousPeriodic() {}
 void Robot::AutonomousExit() {}

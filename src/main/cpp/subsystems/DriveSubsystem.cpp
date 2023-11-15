@@ -55,7 +55,7 @@ void DriveSubsystem::Drive(DriveData data) {
 
 	auto states = DriveKinematics.ToSwerveModuleStates(data.fieldRelative ? fieldRelativeSpeeds : robotRelativeSpeeds, data.centerOfRotation);
 
-	DriveKinematics.DesaturateWheelSpeeds(&states, Teleop::Parameter::Linear::Velocity);
+	DriveKinematics.DesaturateWheelSpeeds(&states, TeleoperatedMode::Parameter::Linear::Velocity);
 
 	auto [fl, fr, rl, rr] = states;
 	
@@ -68,7 +68,7 @@ void DriveSubsystem::Drive(DriveData data) {
 
 void DriveSubsystem::SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates) {
 
-	DriveKinematics.DesaturateWheelSpeeds(&desiredStates, Autonomous::Parameter::Linear::Velocity);
+	DriveKinematics.DesaturateWheelSpeeds(&desiredStates, AutonomousMode::Parameter::Linear::Velocity);
 
 	m_frontLeft.SetDesiredState(desiredStates[0],false);
 	m_frontRight.SetDesiredState(desiredStates[1],false);
