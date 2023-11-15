@@ -7,7 +7,13 @@ Swordtip is a swerve bot using falcon 500 motors, with an arm that angles up and
 > Any code previous to Version `2.0` __WILL NOT FUNCTION__ due to CAN ID changes
 
 # Change Log:
- - Version `2.0`:
+ - Version `2.1`:
+   - Improved readibility
+   - Miscellanious motor configs for operator preference
+   - Added "Coast mode"
+   - Removed the velocity PID loop from driving the modules
+   - Various organization and optimization
+ - Version '2.0':
    - Added an implementation for getting data from the REV PDH
    - Added a current limiter to the Intake motor
    - Changed the way the arm is angled to suit operator preference.  
