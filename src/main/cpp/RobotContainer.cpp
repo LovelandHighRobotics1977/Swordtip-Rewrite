@@ -7,12 +7,12 @@
 #include "subsystems/DriveSubsystem.h"
 
 void RobotContainer::ConfigureAutonomousChooser() {
+
 	m_chooser.SetDefaultOption("Only fire a cube", a_fireCubeOnly.get());
 
 	switch (frc::DriverStation::Alliance()){
 		case frc::DriverStation::kRed:
 			m_chooser.AddOption("Drive Forward 3 Meters", a_red_driveForward.get());
-			m_chooser.AddOption("Mid do shit", a_red_midPickupCube.get());
 			break;
 
 		case frc::DriverStation::kBlue:

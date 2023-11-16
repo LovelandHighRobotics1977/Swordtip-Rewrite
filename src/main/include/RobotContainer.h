@@ -46,7 +46,6 @@ class RobotContainer {
 
 		// Auto routines
 		frc2::CommandPtr a_fireCubeOnly = AutoRoutine::fireCubeOnly(&m_drive, &m_CubeArm);
-		frc2::CommandPtr a_red_midPickupCube = AutoRoutine::Red::MidPickupCube(&m_drive, &m_CubeArm);
 		frc2::CommandPtr a_red_driveForward = AutoRoutine::Red::DriveForward(&m_drive, &m_CubeArm);
 };
 
