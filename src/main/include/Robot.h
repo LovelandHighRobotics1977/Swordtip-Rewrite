@@ -31,6 +31,10 @@ class Robot : public frc::TimedRobot {
  private:
   frc2::Command* m_autonomousCommand;
 
+  cs::UsbCamera r_driveCam;
+	cs::UsbCamera r_armCam;
+	cs::VideoSink r_camServer;
+
   RobotContainer m_container;
 };
 

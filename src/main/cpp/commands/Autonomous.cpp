@@ -39,3 +39,17 @@ frc2::CommandPtr AutoRoutine::Red::DriveForward(DriveSubsystem *drive, CubeArmSu
 		ArmCommand::FireCube(arm, Mechanism::Intake::Target::High)
 	).ToPtr();
 }
+
+frc2::CommandPtr AutoRoutine::Red::MidBalance(DriveSubsystem *drive, CubeArmSubsystem *arm) {
+	return frc2::SequentialCommandGroup(
+		drive->ZeroOdometry({48_ft, 8.4_ft, 180_deg}),
+		ArmCommand::FireCube(arm, Mechanism::Intake::Target::High),
+		SwerveCommand::FollowPath(drive,
+			{48_ft, 8.4_ft, 180_deg},
+			{
+				{36_ft , 8.4_ft}
+			},
+			{42_ft , 8.4_ft, 180_deg}
+		)
+	).ToPtr();
+}

@@ -5,7 +5,10 @@
 #include "Robot.h"
 #include "commands/Autonomous.h"
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+	r_driveCam = frc::CameraServer::StartAutomaticCapture(0);
+	r_driveCam.SetPixelFormat(cs::VideoMode::PixelFormat::kYUYV);
+}
 void Robot::RobotPeriodic() { frc2::CommandScheduler::GetInstance().Run(); }
 
 void Robot::DisabledInit() {}

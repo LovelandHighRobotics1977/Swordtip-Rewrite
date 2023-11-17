@@ -14,6 +14,7 @@ namespace AutoRoutine {
 
     namespace Red {
         frc2::CommandPtr DriveForward(DriveSubsystem *drive, CubeArmSubsystem *arm);
+        frc2::CommandPtr MidBalance(DriveSubsystem *drive, CubeArmSubsystem *arm);
     }
     namespace Blue {
 
